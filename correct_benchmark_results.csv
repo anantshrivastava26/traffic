@@ -1,0 +1,17 @@
+Model,Category,MAE,RMSE,R2_percent,ClassAcc
+Linear Regression,ML,702.3,912.6,78.49,62.3
+Ridge Regression,ML,702.3,912.6,78.49,62.3
+Lasso Regression,ML,702.3,912.7,78.49,62.3
+Decision Tree,ML,306.8,552.4,92.12,85.4
+KNN (k=10),ML,416.1,638.1,89.48,78.3
+Random Forest,ML,310.7,546.7,92.28,84.3
+Extra Trees,ML,335.7,593.2,90.91,83.6
+AdaBoost,ML,594.0,784.9,84.09,68.6
+Gradient Boosting,ML,322.7,535.2,92.6,84.3
+XGBoost,ML,286.8,505.4,93.4,85.6
+LightGBM,ML,286.5,511.4,93.24,85.8
+LSTM,DL,349.3,597.3,90.79,83.0
+BiLSTM,DL,347.9,589.2,91.04,82.9
+GRU,DL,353.6,604.6,90.56,82.8
+CNN-LSTM,DL,349.9,593.6,90.9,82.7
+Transformer,DL,357.4,603.7,90.59,82.2
