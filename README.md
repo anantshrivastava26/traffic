@@ -266,11 +266,5 @@ Built using **Chart.js** with a modern dark UI.
 ## 👨‍💻 Author
 
 **Anant Shrivastava**
-
+**Ashish Srivastava**
 ---
-
-If you want, I can next:
-
-* Add **badges (GitHub, Python, License)**
-* Make it **resume-level premium README (with diagrams + GIF flow)**
-* Or **optimize it for recruiters (ML + DevOps angle)**
