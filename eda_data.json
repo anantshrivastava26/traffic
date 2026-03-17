@@ -1,0 +1,144 @@
+{
+  "dataset_info": {
+    "total_records": 48193,
+    "date_range_start": "2012-10-02 09:00:00",
+    "date_range_end": "2018-09-30 23:00:00",
+    "original_features": 9,
+    "final_features": 19,
+    "missing_values_final": 0
+  },
+  "traffic_stats": {
+    "mean": 3260.2,
+    "median": 3380.0,
+    "max": 7280.0,
+    "min": 0.0,
+    "std": 1986.8
+  },
+  "distribution": {
+    "low": 22.8,
+    "medium": 21.8,
+    "high": 31.8,
+    "severe": 23.6
+  },
+  "temp_stats": {
+    "mean": 8.1,
+    "min": -29.8,
+    "max": 36.9
+  },
+  "rain_stats": {
+    "mean": 0.13,
+    "max": 55.63
+  },
+  "holiday_stats": {
+    "none": 48132,
+    "holidays": 61
+  },
+  "hourly_data": [
+    835.0,
+    516.0,
+    388.0,
+    371.0,
+    703.0,
+    2095.0,
+    4142.0,
+    4742.0,
+    4589.0,
+    4385.0,
+    4185.0,
+    4466.0,
+    4718.0,
+    4715.0,
+    4932.0,
+    5241.0,
+    5664.0,
+    5310.0,
+    4264.0,
+    3276.0,
+    2835.0,
+    2669.0,
+    2199.0,
+    1469.0
+  ],
+  "dow_data": [
+    3309.0,
+    3489.0,
+    3583.0,
+    3638.0,
+    3657.0,
+    2774.0,
+    2370.0
+  ],
+  "monthly_data": [
+    3052.0,
+    3202.0,
+    3308.0,
+    3304.0,
+    3366.0,
+    3419.0,
+    3205.0,
+    3394.0,
+    3303.0,
+    3391.0,
+    3168.0,
+    3024.0
+  ],
+  "weather_names": [
+    "Clear",
+    "Clouds",
+    "Drizzle",
+    "Fog",
+    "Haze",
+    "Mist",
+    "Rain",
+    "Smoke",
+    "Snow",
+    "Squall",
+    "Thunderstorm"
+  ],
+  "weather_avgs": [
+    3057.0,
+    3618.0,
+    3291.0,
+    2704.0,
+    3502.0,
+    2933.0,
+    3318.0,
+    3238.0,
+    3017.0,
+    2062.0,
+    3002.0
+  ],
+  "weather_counts": [
+    13381,
+    15164,
+    1821,
+    912,
+    1360,
+    5950,
+    5671,
+    20,
+    2876,
+    4,
+    1034
+  ],
+  "correlations": {
+    "rush_hour": 0.45,
+    "is_weekend": -0.15,
+    "hour_sin": -0.24,
+    "hour_cos": -0.76,
+    "dow_sin": 0.17,
+    "temp_c": 0.13,
+    "month": -0.0,
+    "snow_1h": 0.0,
+    "rain_1h": -0.02,
+    "clouds_all": 0.07
+  },
+  "outliers": {
+    "q1": 1194.0,
+    "q3": 4933.0,
+    "iqr": 3739.0,
+    "lower_bound": -4414.0,
+    "upper_bound": 10542.0,
+    "outliers_found": 0
+  }
+}

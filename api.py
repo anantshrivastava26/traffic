@@ -26,6 +26,9 @@ CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    'data', 'Metro_Interstate_Traffic_Volume.csv')
 df = pd.read_csv(CSV)
 df = df.drop(columns=['holiday'])
+# Clean outliers: Rain and snow extremes
+df = df[df['rain_1h'] < 500]   # Remove extreme rain outliers
+df = df[df['snow_1h'] < 5]     # Remove extreme snow outliers
 df['date_time']  = pd.to_datetime(df['date_time'])
 df = df.sort_values('date_time').reset_index(drop=True)
 df['hour']       = df['date_time'].dt.hour
@@ -61,12 +64,23 @@ scaler = StandardScaler()
 scaler.fit(X[:train_end])
 X_scaled = scaler.transform(X).astype(np.float32)
 
-# ── Train XGBoost ─────────────────────────────────────────────
-print("Training XGBoost model...")
-model = xgb.XGBRegressor(n_estimators=300, learning_rate=0.05,
-                          max_depth=6, random_state=42, n_jobs=-1)
-model.fit(X[:train_end], y[:train_end], verbose=False)
-print("Model ready!")
+# ── Train XGBoost (or load from disk) ─────────────────────────
+MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model.pkl')
+SCALER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scaler.pkl')
+
+if os.path.exists(MODEL_PATH) and os.path.exists(SCALER_PATH):
+    print("Loading pre-trained XGBoost model...")
+    model = joblib.load(MODEL_PATH)
+    scaler = joblib.load(SCALER_PATH)
+    print("Model loaded!")
+else:
+    print("Training XGBoost model...")
+    model = xgb.XGBRegressor(n_estimators=300, learning_rate=0.05,
+                              max_depth=6, random_state=42, n_jobs=-1)
+    model.fit(X_scaled[:train_end], y[:train_end], verbose=False)  # Train on SCALED data
+    joblib.dump(model, MODEL_PATH)
+    joblib.dump(scaler, SCALER_PATH)
+    print("Model trained and saved!")
 
 def congestion(v):
     if v < 1000: return {'level':'LOW',    'color':'#22c55e', 'risk': round(v/1000*25)}

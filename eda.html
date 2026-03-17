@@ -95,10 +95,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font)}
   </div>
 
   <div class="grid-4">
-    <div class="kpi"><div class="kpi-val" style="color:#38bdf8">48,204</div><div class="kpi-label">Total Records</div><div class="kpi-sub">2012 → 2018</div></div>
-    <div class="kpi"><div class="kpi-val" style="color:#22c55e">9</div><div class="kpi-label">Original Features</div><div class="kpi-sub">Raw columns</div></div>
-    <div class="kpi"><div class="kpi-val" style="color:#a855f7">19</div><div class="kpi-label">Final Features</div><div class="kpi-sub">After engineering</div></div>
-    <div class="kpi"><div class="kpi-val" style="color:#f97316">0</div><div class="kpi-label">Missing Values</div><div class="kpi-sub">After cleaning</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#38bdf8" id="totalRecords">-</div><div class="kpi-label">Total Records</div><div class="kpi-sub" id="dateRange">-</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#22c55e" id="origFeatures">-</div><div class="kpi-label">Original Features</div><div class="kpi-sub">Raw columns</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#a855f7" id="finalFeatures">-</div><div class="kpi-label">Final Features</div><div class="kpi-sub">After engineering</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#f97316" id="missingValues">-</div><div class="kpi-label">Missing Values</div><div class="kpi-sub">After cleaning</div></div>
   </div>
 
   <div class="card">
@@ -138,10 +138,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font)}
   </div>
 
   <div class="grid-4">
-    <div class="kpi"><div class="kpi-val" style="color:#38bdf8">3,260</div><div class="kpi-label">Mean Volume</div><div class="kpi-sub">vehicles/hour</div></div>
-    <div class="kpi"><div class="kpi-val" style="color:#22c55e">3,380</div><div class="kpi-label">Median Volume</div><div class="kpi-sub">vehicles/hour</div></div>
-    <div class="kpi"><div class="kpi-val" style="color:#ef4444">7,280</div><div class="kpi-label">Maximum</div><div class="kpi-sub">peak hour</div></div>
-    <div class="kpi"><div class="kpi-val" style="color:#a855f7">1,918</div><div class="kpi-label">Std Deviation</div><div class="kpi-sub">high variance</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#38bdf8" id="meanVol">-</div><div class="kpi-label">Mean Volume</div><div class="kpi-sub">vehicles/hour</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#22c55e" id="medianVol">-</div><div class="kpi-label">Median Volume</div><div class="kpi-sub">vehicles/hour</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#ef4444" id="maxVol">-</div><div class="kpi-label">Maximum</div><div class="kpi-sub">peak hour</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#a855f7" id="stdVol">-</div><div class="kpi-label">Std Deviation</div><div class="kpi-sub">high variance</div></div>
   </div>
 
   <!-- TEMPORAL PATTERNS -->
@@ -201,7 +201,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font)}
           <div class="step-num">1</div>
           <div class="step-content">
             <h4>Holiday Column — Dropped</h4>
-            <p>48,143 out of 48,204 rows (99.9%) had NaN. Column was unusable — dropped entirely.</p>
+            <p id="holidayInfo">Loading...</p>
           </div>
         </div>
         <div class="step-box">
@@ -215,7 +215,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font)}
           <div class="step-num">3</div>
           <div class="step-content">
             <h4>Temperature — Converted</h4>
-            <p>Kelvin → Celsius (temp - 273.15). Range: -25°C to 38°C. No missing values.</p>
+            <p id="tempInfo">Loading...</p>
           </div>
         </div>
         <div class="step-box">
@@ -297,12 +297,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font)}
       <div style="margin-top:0.5rem">
         <table class="stat-table">
           <tr><th>Metric</th><th>Value</th></tr>
-          <tr><td>Q1 (25th percentile)</td><td class="mono">1,193</td></tr>
-          <tr><td>Q3 (75th percentile)</td><td class="mono">4,933</td></tr>
-          <tr><td>IQR</td><td class="mono">3,740</td></tr>
-          <tr><td>Lower Bound</td><td class="mono">-4,417 (→ 0)</td></tr>
-          <tr><td>Upper Bound</td><td class="mono">10,543</td></tr>
-          <tr><td>Outliers Found</td><td class="mono" style="color:#22c55e">0 (max=7280)</td></tr>
+          <tr><td>Q1 (25th percentile)</td><td class="mono" id="q1Val">-</td></tr>
+          <tr><td>Q3 (75th percentile)</td><td class="mono" id="q3Val">-</td></tr>
+          <tr><td>IQR</td><td class="mono" id="iqrVal">-</td></tr>
+          <tr><td>Lower Bound</td><td class="mono" id="lbVal">-</td></tr>
+          <tr><td>Upper Bound</td><td class="mono" id="ubVal">-</td></tr>
+          <tr><td>Outliers Found</td><td class="mono" id="outliersVal" style="color:#22c55e">-</td></tr>
         </table>
         <div class="insight-box" style="margin-top:1rem">
           <h4>✅ No Outlier Removal Needed</h4>
@@ -385,99 +385,226 @@ body{background:var(--bg);color:var(--text);font-family:var(--font)}
 </div>
 
 <script>
-const COPTS = {
-  responsive:true, maintainAspectRatio:false,
-  plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}},tooltip:{backgroundColor:'#1a2235',borderColor:'rgba(99,179,237,0.3)',borderWidth:1}},
-  scales:{
-    x:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(99,179,237,0.05)'},border:{display:false}},
-    y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(99,179,237,0.07)'},border:{display:false}}
+// Load EDA data from JSON
+let edaData = {};
+
+async function loadEdaData() {
+  try {
+    const response = await fetch('eda_data.json');
+    edaData = await response.json();
+    populateUI();
+    initCharts();
+    console.log('✅ EDA data loaded successfully');
+  } catch(e) {
+    console.error('Error loading eda_data.json:', e);
+    alert('Error loading EDA data. Please ensure eda_data.json exists.');
   }
-};
+}
 
-// Volume Distribution
-const volBins = ['0-500','500-1k','1k-1.5k','1.5k-2k','2k-2.5k','2.5k-3k','3k-3.5k','3.5k-4k','4k-4.5k','4.5k-5k','5k-5.5k','5.5k+'];
-const volCounts = [2840,3120,2890,2650,2430,2180,2560,3120,3890,4210,3670,14644];
-new Chart(document.getElementById('chartVolDist'),{
-  type:'bar',
-  data:{labels:volBins,datasets:[{label:'Count',data:volCounts,backgroundColor:volCounts.map((_,i)=>i<2?'#22c55e':i<6?'#eab308':i<9?'#f97316':'#ef4444'),borderRadius:4,borderSkipped:false}]},
-  options:{...COPTS,plugins:{...COPTS.plugins,title:{display:true,text:'Traffic Volume Frequency Distribution',color:'#94a3b8'}}}
-});
+function populateUI() {
+  // Dataset Info
+  document.getElementById('totalRecords').textContent = edaData.dataset_info.total_records.toLocaleString();
+  document.getElementById('dateRange').textContent = edaData.dataset_info.date_range_start.split(' ')[0] + ' → ' + edaData.dataset_info.date_range_end.split(' ')[0];
+  document.getElementById('origFeatures').textContent = edaData.dataset_info.original_features;
+  document.getElementById('finalFeatures').textContent = edaData.dataset_info.final_features;
+  document.getElementById('missingValues').textContent = edaData.dataset_info.missing_values_final;
 
-// Congestion Level
-new Chart(document.getElementById('chartCongLevel'),{
-  type:'doughnut',
-  data:{labels:['LOW (<1000)','MEDIUM (1k-3k)','HIGH (3k-5k)','SEVERE (>5k)'],
-    datasets:[{data:[22.8,21.8,31.8,23.6],backgroundColor:['rgba(34,197,94,0.8)','rgba(234,179,8,0.8)','rgba(249,115,22,0.8)','rgba(239,68,68,0.8)'],borderColor:['#22c55e','#eab308','#f97316','#ef4444'],borderWidth:2}]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}}}}
-});
+  // Traffic Stats
+  document.getElementById('meanVol').textContent = edaData.traffic_stats.mean.toLocaleString();
+  document.getElementById('medianVol').textContent = edaData.traffic_stats.median.toLocaleString();
+  document.getElementById('maxVol').textContent = edaData.traffic_stats.max.toLocaleString();
+  document.getElementById('stdVol').textContent = edaData.traffic_stats.std.toLocaleString();
 
-// Hourly
-const hourlyData = [335,216,151,117,144,371,1623,3712,4056,3554,3101,3356,3578,3134,2912,3256,4034,4776,4023,3134,2356,1776,1134,612];
-const HL = Array.from({length:24},(_,i)=>i<12?`${i===0?12:i}am`:`${i===12?12:i-12}pm`);
-new Chart(document.getElementById('chartHourly'),{
-  type:'line',
-  data:{labels:HL,datasets:[{label:'Avg Volume',data:hourlyData,borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,0.1)',fill:true,tension:0.4,pointRadius:4,borderWidth:2.5,pointBackgroundColor:hourlyData.map(v=>v>4000?'#ef4444':v>3000?'#f97316':'#38bdf8')}]},
-  options:{...COPTS}
-});
+  // Temperature Info
+  document.getElementById('tempInfo').textContent = `Kelvin → Celsius (temp - 273.15). Range: ${edaData.temp_stats.min}°C to ${edaData.temp_stats.max}°C. No missing values.`;
 
-// DOW
-new Chart(document.getElementById('chartDOW'),{
-  type:'bar',
-  data:{labels:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
-    datasets:[{label:'Avg Volume',data:[2934,2856,2812,2798,2967,1823,1654],backgroundColor:['#38bdf8','#38bdf8','#38bdf8','#38bdf8','#38bdf8','#a855f7','#a855f7'],borderRadius:6,borderSkipped:false}]},
-  options:{...COPTS}
-});
+  // Holiday Info
+  const totalRecords = edaData.dataset_info.total_records;
+  const holidayNoneCount = edaData.holiday_stats.none;
+  const nanPercent = ((totalRecords - holidayNoneCount) / totalRecords * 100).toFixed(1);
+  document.getElementById('holidayInfo').textContent = `${totalRecords - holidayNoneCount} out of ${totalRecords} rows (${nanPercent}%) had NaN. Column was unusable — dropped entirely.`;
 
-// Monthly
-new Chart(document.getElementById('chartMonthly'),{
-  type:'line',
-  data:{labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    datasets:[{label:'Avg Volume',data:[2634,2589,2756,2934,3123,3312,3198,3145,2987,2834,2698,2512],borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.1)',fill:true,tension:0.4,borderWidth:2,pointRadius:5,pointBackgroundColor:'#22c55e'}]},
-  options:{...COPTS}
-});
+  // Outlier Analysis
+  document.getElementById('q1Val').textContent = edaData.outliers.q1.toLocaleString();
+  document.getElementById('q3Val').textContent = edaData.outliers.q3.toLocaleString();
+  document.getElementById('iqrVal').textContent = edaData.outliers.iqr.toLocaleString();
+  document.getElementById('lbVal').textContent = edaData.outliers.lower_bound.toLocaleString() + (edaData.outliers.lower_bound < 0 ? ' (→ 0)' : '');
+  document.getElementById('ubVal').textContent = edaData.outliers.upper_bound.toLocaleString();
+  document.getElementById('outliersVal').textContent = edaData.outliers.outliers_found + (edaData.outliers.outliers_found === 0 ? ' (max=' + edaData.traffic_stats.max.toLocaleString() + ')' : '');
+}
 
-// Missing Values
-new Chart(document.getElementById('chartMissing'),{
-  type:'bar',
-  data:{labels:['holiday','weather_desc','temp','rain_1h','snow_1h','clouds_all','weather_main','date_time','traffic_vol'],
-    datasets:[{label:'Missing Values',data:[48143,0,0,0,0,0,0,0,0],backgroundColor:['#ef4444','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e'],borderRadius:4,borderSkipped:false}]},
-  options:{...COPTS,indexAxis:'y'}
-});
+function initCharts() {
+  const COPTS = {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}},tooltip:{backgroundColor:'#1a2235',borderColor:'rgba(99,179,237,0.3)',borderWidth:1}},
+    scales:{
+      x:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(99,179,237,0.05)'},border:{display:false}},
+      y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(99,179,237,0.07)'},border:{display:false}}
+    }
+  };
 
-// Weather EDA
-new Chart(document.getElementById('chartWeatherEDA'),{
-  type:'bar',
-  data:{labels:['Clear','Clouds','Mist','Rain','Drizzle','Fog','Snow','Thunderstorm'],
-    datasets:[{label:'Avg Volume',data:[3245,3156,2789,2456,2634,2234,1234,1876],backgroundColor:['#38bdf8bb','#94a3b8bb','#64748bbb','#3b82f6bb','#0ea5e9bb','#475569bb','#8b5cf6bb','#6366f1bb'],borderRadius:6,borderSkipped:false}]},
-  options:{...COPTS}
-});
+  // Congestion Level Pie Chart
+  new Chart(document.getElementById('chartCongLevel'),{
+    type:'doughnut',
+    data:{
+      labels:['LOW (<1000)','MEDIUM (1k-3k)','HIGH (3k-5k)','SEVERE (>5k)'],
+      datasets:[{
+        data:[edaData.distribution.low,edaData.distribution.medium,edaData.distribution.high,edaData.distribution.severe],
+        backgroundColor:['rgba(34,197,94,0.8)','rgba(234,179,8,0.8)','rgba(249,115,22,0.8)','rgba(239,68,68,0.8)'],
+        borderColor:['#22c55e','#eab308','#f97316','#ef4444'],
+        borderWidth:2
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}}}}
+  });
 
-// Weather Distribution
-new Chart(document.getElementById('chartWeatherDist'),{
-  type:'doughnut',
-  data:{labels:['Clouds','Clear','Mist','Rain','Drizzle','Snow','Fog','Thunderstorm'],
-    datasets:[{data:[38.2,24.1,15.3,12.4,5.2,2.8,1.4,0.6],backgroundColor:['#94a3b8','#38bdf8','#64748b','#3b82f6','#0ea5e9','#8b5cf6','#475569','#6366f1'],borderWidth:2}]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#94a3b8',font:{size:10},padding:8}}}}
-});
+  // Hourly Chart
+  const HL = Array.from({length:24},(_,i)=>i<12?`${i===0?12:i}am`:`${i===12?12:i-12}pm`);
+  new Chart(document.getElementById('chartHourly'),{
+    type:'line',
+    data:{
+      labels:HL,
+      datasets:[{
+        label:'Avg Volume',
+        data:edaData.hourly_data,
+        borderColor:'#38bdf8',
+        backgroundColor:'rgba(56,189,248,0.1)',
+        fill:true,tension:0.4,pointRadius:4,borderWidth:2.5,
+        pointBackgroundColor:edaData.hourly_data.map(v=>v>4000?'#ef4444':v>3000?'#f97316':'#38bdf8')
+      }]
+    },
+    options:{...COPTS}
+  });
 
-// Correlation
-new Chart(document.getElementById('chartCorr'),{
-  type:'bar',
-  data:{labels:['rush_hour','is_weekend','hour_sin','hour_cos','dow_sin','temp_c','month','snow_1h','rain_1h','clouds_all'],
-    datasets:[{label:'Correlation with traffic_volume',
-      data:[0.42,-0.38,0.31,-0.28,0.21,0.14,0.11,-0.12,-0.08,-0.06],
-      backgroundColor:[0.42,-0.38,0.31,-0.28,0.21,0.14,0.11,-0.12,-0.08,-0.06].map(v=>v>0?'rgba(56,189,248,0.7)':'rgba(239,68,68,0.7)'),
-      borderRadius:4,borderSkipped:false}]},
-  options:{...COPTS,indexAxis:'y',plugins:{...COPTS.plugins,legend:{display:false}}}
-});
+  // Day of Week Chart
+  const dowLabels = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  new Chart(document.getElementById('chartDOW'),{
+    type:'bar',
+    data:{
+      labels:dowLabels,
+      datasets:[{
+        label:'Avg Volume',
+        data:edaData.dow_data,
+        backgroundColor:['#38bdf8','#38bdf8','#38bdf8','#38bdf8','#38bdf8','#a855f7','#a855f7'],
+        borderRadius:6,borderSkipped:false
+      }]
+    },
+    options:{...COPTS}
+  });
 
-// Outlier Box approximation
-new Chart(document.getElementById('chartOutlier'),{
-  type:'bar',
-  data:{labels:['Min','Q1','Median','Mean','Q3','Max'],
-    datasets:[{label:'Traffic Volume',data:[0,1193,3380,3260,4933,7280],backgroundColor:['#64748b','#38bdf8','#22c55e','#a855f7','#f97316','#ef4444'],borderRadius:6,borderSkipped:false}]},
-  options:{...COPTS}
-});
+  // Monthly Chart
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  new Chart(document.getElementById('chartMonthly'),{
+    type:'line',
+    data:{
+      labels:months,
+      datasets:[{
+        label:'Avg Volume',
+        data:edaData.monthly_data,
+        borderColor:'#22c55e',
+        backgroundColor:'rgba(34,197,94,0.1)',
+        fill:true,tension:0.4,borderWidth:2,pointRadius:5,pointBackgroundColor:'#22c55e'
+      }]
+    },
+    options:{...COPTS}
+  });
+
+  // Weather EDA Chart
+  new Chart(document.getElementById('chartWeatherEDA'),{
+    type:'bar',
+    data:{
+      labels:edaData.weather_names,
+      datasets:[{
+        label:'Avg Volume',
+        data:edaData.weather_avgs,
+        backgroundColor:edaData.weather_names.map((_,i)=>['#38bdf8bb','#94a3b8bb','#64748bbb','#3b82f6bb','#0ea5e9bb','#475569bb','#8b5cf6bb','#6366f1bb','#f472b6bb','#d946efbb','#84cc16bb'][i%11]),
+        borderRadius:6,borderSkipped:false
+      }]
+    },
+    options:{...COPTS}
+  });
+
+  // Weather Distribution Pie
+  new Chart(document.getElementById('chartWeatherDist'),{
+    type:'doughnut',
+    data:{
+      labels:edaData.weather_names,
+      datasets:[{
+        data:edaData.weather_counts.map(c=>parseFloat(((c/edaData.dataset_info.total_records)*100).toFixed(1))),
+        backgroundColor:edaData.weather_names.map((_,i)=>['#94a3b8','#38bdf8','#64748b','#3b82f6','#0ea5e9','#8b5cf6','#475569','#6366f1','#f472b6','#d946ef','#84cc16'][i%11]),
+        borderWidth:2
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#94a3b8',font:{size:10},padding:8}}}}
+  });
+
+  // Correlation Chart
+  const corrFeatures = Object.keys(edaData.correlations);
+  const corrValues = Object.values(edaData.correlations);
+  new Chart(document.getElementById('chartCorr'),{
+    type:'bar',
+    data:{
+      labels:corrFeatures,
+      datasets:[{
+        label:'Correlation with traffic_volume',
+        data:corrValues,
+        backgroundColor:corrValues.map(v=>v>0?'rgba(56,189,248,0.7)':'rgba(239,68,68,0.7)'),
+        borderRadius:4,borderSkipped:false
+      }]
+    },
+    options:{...COPTS,indexAxis:'y',plugins:{...COPTS.plugins,legend:{display:false}}}
+  });
+
+  // Outlier Box Chart
+  new Chart(document.getElementById('chartOutlier'),{
+    type:'bar',
+    data:{
+      labels:['Min','Q1','Median','Mean','Q3','Max'],
+      datasets:[{
+        label:'Traffic Volume',
+        data:[edaData.traffic_stats.min,edaData.outliers.q1,(edaData.traffic_stats.median||edaData.traffic_stats.mean),edaData.traffic_stats.mean,edaData.outliers.q3,edaData.traffic_stats.max],
+        backgroundColor:['#64748b','#38bdf8','#22c55e','#a855f7','#f97316','#ef4444'],
+        borderRadius:6,borderSkipped:false
+      }]
+    },
+    options:{...COPTS}
+  });
+
+  // Traffic Volume Distribution (kept as is for now)
+  const volBins = ['0-500','500-1k','1k-1.5k','1.5k-2k','2k-2.5k','2.5k-3k','3k-3.5k','3.5k-4k','4k-4.5k','4.5k-5k','5k-5.5k','5.5k+'];
+  const volCounts = [2840,3120,2890,2650,2430,2180,2560,3120,3890,4210,3670,14644];
+  new Chart(document.getElementById('chartVolDist'),{
+    type:'bar',
+    data:{
+      labels:volBins,
+      datasets:[{
+        label:'Count',
+        data:volCounts,
+        backgroundColor:volCounts.map((_,i)=>i<2?'#22c55e':i<6?'#eab308':i<9?'#f97316':'#ef4444'),
+        borderRadius:4,borderSkipped:false
+      }]
+    },
+    options:{...COPTS,plugins:{...COPTS.plugins,title:{display:true,text:'Traffic Volume Frequency Distribution',color:'#94a3b8'}}}
+  });
+
+  // Missing Values Chart
+  new Chart(document.getElementById('chartMissing'),{
+    type:'bar',
+    data:{
+      labels:['holiday','weather_desc','temp','rain_1h','snow_1h','clouds_all','weather_main','date_time','traffic_vol'],
+      datasets:[{
+        label:'Missing Values',
+        data:[edaData.dataset_info.total_records - edaData.holiday_stats.none,0,0,0,0,0,0,0,0],
+        backgroundColor:['#ef4444','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e','#22c55e'],
+        borderRadius:4,borderSkipped:false
+      }]
+    },
+    options:{...COPTS,indexAxis:'y'}
+  });
+}
+
+// Load data when page loads
+window.addEventListener('load', loadEdaData);
 </script>
 </body>
 </html>
